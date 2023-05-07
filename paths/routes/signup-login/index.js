@@ -22,7 +22,7 @@ router.get('/find/donors', (req, res) => {
     const pipeline = [
         {
             $match: {
-                role_id: 2
+                role_id: 3
             }
         },
         {
@@ -39,6 +39,7 @@ router.get('/find/donors', (req, res) => {
                 district: 1,
                 upazilla: 1,
                 union: 1,
+                password: 1,
                 address: 1,
                 blood_group: 1,
                 last_donation_date: 1,
@@ -49,9 +50,9 @@ router.get('/find/donors', (req, res) => {
         }
     ];
     User.aggregate(pipeline).then((users) => {
-        res.status(200).json({status: true, data: users});
+        res.status(200).json({ status: true, data: users });
     }).catch((err) => {
-        res.status(500).json({status: false, message: err.message});
+        res.status(500).json({ status: false, message: err.message });
     })
 });
 
@@ -60,7 +61,7 @@ router.get('/find/admins', (req, res) => {
     const pipeline = [
         {
             $match: {
-                role_id: 1
+                role_id: 2
             }
         },
         {
@@ -85,9 +86,9 @@ router.get('/find/admins', (req, res) => {
         }
     ];
     User.aggregate(pipeline).then((users) => {
-        res.status(200).json({status: true, data: users});
+        res.status(200).json({ status: true, data: users });
     }).catch((err) => {
-        res.status(500).json({status: false, message: err.message});
+        res.status(500).json({ status: false, message: err.message });
     })
 });
 

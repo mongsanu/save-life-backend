@@ -5,7 +5,7 @@ const User = require("../../../api/models/User/User");
 // const user_role_enum = require("../../enums/user_role_enum");
 
 // User update only for user
-router.patch('/users/update', update_user);
+router.patch('/user/update', update_user);
 
 // Get all users only for admin
 router.get('/users', find_all_users);
@@ -28,12 +28,12 @@ router.post('/donor/send-email', send_email);
 router.post('/admin/send-email', send_email);
 
 // verify user email
-router.get('/user/verify-email', async(req, res) => {
-    const {email} = req?.query;
+router.get('/user/verify-email', async (req, res) => {
+    const { email } = req?.query;
     try {
-        const update_user_res = await User.updateOne({email: email}, {isVerified: true});
-        console.log({update_user_res});
-        if(update_user_res?.modifiedCount){
+        const update_user_res = await User.updateOne({ email: email }, { isVerified: true });
+        console.log({ update_user_res });
+        if (update_user_res?.modifiedCount) {
             return res.status(200).json({
                 status: true,
                 message: "Email verified successfully",
@@ -44,9 +44,9 @@ router.get('/user/verify-email', async(req, res) => {
                 message: "Email not verified",
             });
         }
-        
+
     } catch (error) {
-        console.log({error});
+        console.log({ error });
         res.status(500).json({
             status: false,
             message: error?.message || "Server error",
@@ -87,7 +87,7 @@ router.get('/user/verify-email', async(req, res) => {
 //                     status: false,
 //                     message: "The role is already exists by this role_id"
 //                 })
-    
+
 //             } catch (error) {
 //                 return res.status(404).json({
 //                     status: false,
@@ -111,7 +111,7 @@ router.get('/user/verify-email', async(req, res) => {
 //             try {
 //                 const user_roles = await UserRole.find({})
 //                                    .select("-_id role_id name slug");
-                
+
 //                 console.log("====246====",{user_role_length: user_roles?.length});
 //                 if(user_roles?.length){
 //                     return res.status(200).json({
@@ -123,7 +123,7 @@ router.get('/user/verify-email', async(req, res) => {
 //                     status: false,
 //                     message: "There is no user role!!!"
 //                 })
-        
+
 //             } catch (error) {
 //                 return res.status(404).json({
 //                     status: false,
@@ -136,7 +136,7 @@ router.get('/user/verify-email', async(req, res) => {
 //             message: "User isn't authorized to to find user!!!"
 //         })
 //     }
-    
+
 // });
 
 //  Get all user-roles only for admin
@@ -144,7 +144,7 @@ router.get('/user/verify-email', async(req, res) => {
 //     try {
 //         const user_roles = await UserRole.find({name: {$nin: ["Admin", "admin"]}})
 //                            .select("-_id role_id name slug");
-     
+
 //         console.log("====284====",{user_role_length: user_roles?.length});
 //         if(user_roles?.length){
 //             return res.status(200).json({
@@ -172,7 +172,7 @@ router.get('/user/verify-email', async(req, res) => {
 //                 let {role_id} = req?.query;
 //                 const user_role = await UserRole.findOne({role_id})
 //                                 .select("_id role_id name slug");
-                
+
 //                 if(user_role){
 //                     return res.status(200).json({
 //                         status: true,
@@ -183,7 +183,7 @@ router.get('/user/verify-email', async(req, res) => {
 //                     status: false,
 //                     message: "There is no user role by this role_id!!!"
 //                 })
-    
+
 //             } catch (error) {
 //                 return res.status(404).json({
 //                     status: false,
@@ -229,7 +229,7 @@ router.get('/user/verify-email', async(req, res) => {
 //                     status: false,
 //                     message: "The role isn't exists to update by this role_id"
 //                 })
-    
+
 //             } catch (error) {
 //                 return res.status(404).json({
 //                     status: false,
@@ -277,7 +277,7 @@ router.get('/user/verify-email', async(req, res) => {
 //                     status: false,
 //                     message: "The user role isn't exists to delete by this role_id"
 //                 })
-    
+
 //             } catch (error) {
 //                 return res.status(404).json({
 //                     status: false,
