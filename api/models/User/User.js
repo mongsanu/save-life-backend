@@ -33,6 +33,12 @@ const UserSchema = new mongoose.Schema(
             max: 14,
             length: 14,
         },
+        otp: {
+            type: String,
+            min: 4,
+            max: 4,
+            length: 4,
+        },
         division: { type: String, },
         district: { type: String, },
         upazilla: { type: String, },

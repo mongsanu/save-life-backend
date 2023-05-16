@@ -19,6 +19,46 @@ const smtpTransport = nodemailer.createTransport({
     }
 });
 
+// User reset password 
+exports.reset_password = async (req, res) => {
+    const { email } = req?.query;
+    if (!email) {
+        return res.status(400).json({ status: false, message: "Email is required!!!" });
+    }
+    try {
+        const user = await User.findOne({ email: email });
+        console.log({ user: user });
+        if (!user?.email) {
+            return res.status(200).json({ status: false, message: "User not found!!!" });
+        }
+        const otp = Math.floor(1000 + Math.random() * 9000);
+        console.log({ otp });
+        const user_update_res = await User.updateOne({ email }, { otp });
+        if (user_update_res.modifiedCount) {
+            const mailOptions = {
+                from: process.env.EMAIL,
+                to: email,
+                subject: 'Reset Password',
+                html: `<h1>Reset Password</h1><p>Your OTP is <span style="color: red;">${otp}</span></p>`
+            };
+            smtpTransport.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                }
+            });
+            return res.status(200).json({
+                status: true,
+                // data: otp,
+                message: `Check your email ${email?.substring(0, 3) + "****" + email?.substring(email?.lastIndexOf("@") - 1)} for OTP and check also you spam!!!`
+            });
+        } else {
+            return res.status(500).json({ status: false, message: "Something wrong to update use" });
+        }
+    } catch (error) {
+        return res.status(500).json({ status: false, message: error.message });
+    }
+}
+
 // User login for getting token
 exports.login_user = async (req, res) => {
     const { email, password, user_id, user_role } = req?.body;
