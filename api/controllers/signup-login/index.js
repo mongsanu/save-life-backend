@@ -114,10 +114,12 @@ exports.login_user = async (req, res) => {
         if (!user) {
             return res.status(404).json({ status: false, message: "User not found!" });
         }
-        if ((user_role === "admin" || user?.user_role === 'admin') && user?.user_role !== user_role) {
-            return res.status(200).json({
-                status: false, message: "User role is not matched! you are not allowed to login as admin"
-            });
+        if ((user_role === "admin" || user?.user_role === 'admin') && user?.user_role !== user_role && user?.user_role?.includes('Super Admin')) {
+            if (!user?.user_role?.includes('Super Admin')) {
+                return res.status(200).json({
+                    status: false, message: "User role is not matched! you are not allowed to login as admin"
+                });
+            }
         }
         if (!user?.isVerified) {
             const mailOptions = {

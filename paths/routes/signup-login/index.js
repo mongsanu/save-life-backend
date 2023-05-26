@@ -110,9 +110,12 @@ router.post('/user/change-password', (req, res) => {
         return res.status(400).json({ status: false, message: "Email, otp and password are required!!!" });
     }
     try {
-        User.findOne({ email, otp }).then((user) => {
+        User.findOne({ email }).then((user) => {
             if (!user) {
                 return res.status(404).json({ status: false, message: "User not found!!!" });
+            }
+            if (user?.otp !== otp) {
+                return res.status(200).json({ status: false, message: "OTP not matched!!!" });
             }
             user.password = password;
             user.otp = ""
