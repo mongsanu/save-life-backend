@@ -7,8 +7,11 @@ const bodyParser = require("body-parser");
 const { authenticateJWT } = require("./api/controllers/auth");
 require("./configs/env.config");
 require("./configs/db.config");
+const cookieParser = require("cookie-parser");
+
 
 //middleware
+app.use(cookieParser());
 app.use(express.json());
 app.use(fileUpload());
 app.use(cors());
